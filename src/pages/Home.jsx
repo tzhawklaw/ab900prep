@@ -28,7 +28,7 @@ export default function Home({ onStart, onDisclaimer }) {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: "rgba(56,189,248,0.1)", border: "1px solid rgba(56,189,248,0.3)", color: "#38bdf8" }}>
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse inline-block"></span>
-            Free Practice Exam · 100 Questions Available
+            Free Practice Exam · 238 Questions Available
           </div>
 
           {/* Title */}
@@ -47,8 +47,8 @@ export default function Home({ onStart, onDisclaimer }) {
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-3 mb-10 max-w-sm mx-auto">
             {[
-              { icon: "📋", val: "100", label: "Questions" },
-              { icon: "⏱️", val: "90 min", label: "Time limit" },
+              { icon: "📋", val: "238", label: "Questions" },
+              { icon: "⏱️", val: "240 min", label: "Time limit" },
               { icon: "🎯", val: "700/1000", label: "Pass score" },
             ].map(s => (
               <div key={s.label} className="rounded-xl p-3 text-center"

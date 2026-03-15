@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import QUESTIONS from "../questions.js";
 
-const TOTAL_TIME = 90 * 60;
+const TOTAL_TIME = 240 * 60;
 
 const DOMAIN_COLORS = {
   "M365 Core Services & Security": "#38bdf8",
