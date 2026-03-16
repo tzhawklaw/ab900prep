@@ -139,7 +139,7 @@ export default function Exam({ onComplete, onHome }) {
               <p className="font-semibold text-white text-sm">Question Navigator</p>
               <button onClick={() => setShowNav(false)} style={{ color: "var(--muted)" }}>✕</button>
             </div>
-            <div className="grid grid-cols-10 gap-1.5 mb-3">
+            <div className="grid grid-cols-10 gap-1.5 mb-3 overflow-y-auto" style={{ maxHeight: "60vh" }}>
               {QUESTIONS.map((q2, idx) => {
                 const isAns = answers[q2.id] !== undefined;
                 const isFlag = flagged.has(q2.id);
