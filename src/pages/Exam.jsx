@@ -20,6 +20,7 @@ export default function Exam({ onComplete, onHome }) {
   const [isPaused, setIsPaused] = useState(false);
   const [pauseCount, setPauseCount] = useState(0);
   const [countdown, setCountdown] = useState(null);
+  const [showPauseWarning, setShowPauseWarning] = useState(false);
   const [showNav, setShowNav] = useState(false);
 
   const q = QUESTIONS[current];
@@ -128,8 +129,12 @@ export default function Exam({ onComplete, onHome }) {
           <button
             onClick={() => {
               if (!isPaused) {
-                setPauseCount(c => c + 1);
-                setIsPaused(true);
+                if (pauseCount === 0) {
+                  setShowPauseWarning(true);
+                } else {
+                  setPauseCount(c => c + 1);
+                  setIsPaused(true);
+                }
               } else {
                 setCountdown(3);
               }
@@ -219,6 +224,37 @@ export default function Exam({ onComplete, onHome }) {
             style={{ background: "linear-gradient(135deg, #0284c7, #6366f1)" }}>
             ▶ Resume Exam
           </button>
+        </div>
+      )}
+
+      {/* Pause limit warning */}
+      {showPauseWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ background: "rgba(0,0,0,0.7)" }}>
+          <div className="w-full max-w-sm mx-4 p-6 rounded-2xl"
+            style={{ background: "var(--navy-mid)", border: "1px solid #1e293b" }}>
+            <div className="text-3xl mb-3 text-center">⏸</div>
+            <p className="text-white font-semibold text-center mb-2">Pause limit: {MAX_PAUSES}x</p>
+            <p className="text-sm text-center mb-6" style={{ color: "var(--muted)" }}>
+              You can pause this exam a maximum of <span className="text-white font-medium">{MAX_PAUSES} times</span>. After that, the pause button will be disabled for the rest of the session.
+            </p>
+            <div className="flex gap-3">
+              <button onClick={() => setShowPauseWarning(false)}
+                className="flex-1 py-2.5 rounded-xl text-sm"
+                style={{ background: "#0f172a", color: "var(--muted)", border: "1px solid #334155" }}>
+                Cancel
+              </button>
+              <button onClick={() => {
+                setShowPauseWarning(false);
+                setPauseCount(c => c + 1);
+                setIsPaused(true);
+              }}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white"
+                style={{ background: "linear-gradient(135deg, #0284c7, #6366f1)" }}>
+                Pause Exam
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
