@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import QUESTIONS from "../questions.js";
 
 const TOTAL_TIME = 240 * 60;
+const MAX_PAUSES = 3;
 
 const DOMAIN_COLORS = {
   "M365 Core Services & Security": "#38bdf8",
@@ -16,6 +17,9 @@ export default function Exam({ onComplete, onHome }) {
   const [confirmed, setConfirmed] = useState(false);
   const [flagged, setFlagged] = useState(new Set());
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
+  const [isPaused, setIsPaused] = useState(false);
+  const [pauseCount, setPauseCount] = useState(0);
+  const [countdown, setCountdown] = useState(null);
   const [showNav, setShowNav] = useState(false);
 
   const q = QUESTIONS[current];
@@ -26,6 +30,7 @@ export default function Exam({ onComplete, onHome }) {
   const timerUrgent = timeLeft < 600;
 
   useEffect(() => {
+    if (isPaused) return;
     const t = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {
@@ -37,7 +42,18 @@ export default function Exam({ onComplete, onHome }) {
       });
     }, 1000);
     return () => clearInterval(t);
-  }, []);
+  }, [isPaused]);
+
+  useEffect(() => {
+    if (countdown === null) return;
+    if (countdown === 0) {
+      setIsPaused(false);
+      setCountdown(null);
+      return;
+    }
+    const t = setTimeout(() => setCountdown(c => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [countdown]);
 
   const handleFinish = useCallback(() => {
     onComplete({ answers, questions: QUESTIONS, timeUsed: TOTAL_TIME - timeLeft });
@@ -100,13 +116,33 @@ export default function Exam({ onComplete, onHome }) {
           </span>
         </div>
 
-        <div className={`font-mono font-bold text-base px-3 py-1.5 rounded-lg ${timerUrgent ? "animate-pulse" : ""}`}
-          style={{
-            background: timerUrgent ? "rgba(239,68,68,0.2)" : "#0f172a",
-            color: timerUrgent ? "#fca5a5" : "var(--text)",
-            border: timerUrgent ? "1px solid rgba(239,68,68,0.3)" : "1px solid #1e293b"
-          }}>
-          {mins}:{secs}
+        <div className="flex items-center gap-2">
+          <div className={`font-mono font-bold text-base px-3 py-1.5 rounded-lg ${timerUrgent && !isPaused ? "animate-pulse" : ""}`}
+            style={{
+              background: isPaused ? "rgba(100,116,139,0.2)" : timerUrgent ? "rgba(239,68,68,0.2)" : "#0f172a",
+              color: isPaused ? "#94a3b8" : timerUrgent ? "#fca5a5" : "var(--text)",
+              border: isPaused ? "1px solid rgba(100,116,139,0.3)" : timerUrgent ? "1px solid rgba(239,68,68,0.3)" : "1px solid #1e293b"
+            }}>
+            {mins}:{secs}
+          </div>
+          <button
+            onClick={() => {
+              if (!isPaused) {
+                setPauseCount(c => c + 1);
+                setIsPaused(true);
+              } else {
+                setCountdown(3);
+              }
+            }}
+            disabled={isPaused || pauseCount >= MAX_PAUSES}
+            className="text-xs px-2 py-1.5 rounded-lg transition-colors disabled:opacity-40"
+            style={{
+              background: isPaused ? "rgba(16,185,129,0.15)" : "#0f172a",
+              color: isPaused ? "#6ee7b7" : "var(--muted)",
+              border: isPaused ? "1px solid rgba(16,185,129,0.3)" : "1px solid #1e293b"
+            }}>
+            {pauseCount >= MAX_PAUSES ? "No Pauses Left" : `⏸ Pause (${MAX_PAUSES - pauseCount} left)`}
+          </button>
         </div>
 
         <div className="flex items-center gap-2">
@@ -167,6 +203,32 @@ export default function Exam({ onComplete, onHome }) {
               style={{ background: "linear-gradient(135deg, #0284c7, #6366f1)" }}>
               Submit Exam
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Paused overlay */}
+      {isPaused && (
+        <div className="fixed inset-0 z-40 flex flex-col items-center justify-center"
+          style={{ background: "rgba(2,6,23,0.92)", backdropFilter: "blur(6px)" }}>
+          <div className="text-5xl mb-4">⏸</div>
+          <p className="text-white text-xl font-semibold mb-2">Exam Paused</p>
+          <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>Timer is paused. Questions are hidden.</p>
+          <button onClick={() => setCountdown(3)}
+            className="px-6 py-3 rounded-xl font-semibold text-sm text-white"
+            style={{ background: "linear-gradient(135deg, #0284c7, #6366f1)" }}>
+            ▶ Resume Exam
+          </button>
+        </div>
+      )}
+
+      {/* Countdown overlay */}
+      {countdown !== null && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+          style={{ background: "rgba(2,6,23,0.95)" }}>
+          <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>Resuming in…</p>
+          <div className="font-mono font-bold text-white" style={{ fontSize: "7rem", lineHeight: 1 }}>
+            {countdown}
           </div>
         </div>
       )}
