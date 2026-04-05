@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import QUESTIONS from "../questions.js";
+import { trackQuizCompleted } from '../analytics';
 
 const TOTAL_TIME = 240 * 60;
 const MAX_PAUSES = 3;
@@ -56,9 +57,14 @@ export default function Exam({ onComplete, onHome }) {
     return () => clearTimeout(t);
   }, [countdown]);
 
-  const handleFinish = useCallback(() => {
-    onComplete({ answers, questions: QUESTIONS, timeUsed: TOTAL_TIME - timeLeft });
-  }, [answers, timeLeft, onComplete]);
+const handleFinish = useCallback(() => {
+  const score = Object.values(answers).filter((a, i) =>
+    a === QUESTIONS[i]?.correct
+  ).length;
+  const pct = Math.round((score / QUESTIONS.length) * 100);
+  trackQuizCompleted(pct, QUESTIONS.length, TOTAL_TIME - timeLeft);
+  onComplete({ answers, questions: QUESTIONS, timeUsed: TOTAL_TIME - timeLeft });
+}, [answers, timeLeft, onComplete]);
 
   const confirmAnswer = () => {
     if (selected === null) return;
