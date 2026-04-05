@@ -12,7 +12,7 @@ export default function KofiButton({ compact = false }) {
                                         border: "1px solid rgba(245,158,11,0.3)"
                             }}>
                             Support AB900Prep
-                  </a>a>
+                  </a>
                 );
     }
 
@@ -25,6 +25,6 @@ export default function KofiButton({ compact = false }) {
                           color: "#1c1917",
                 }}>
                 Support AB900Prep
-        </a>a>
+        </a>
       );
 }
