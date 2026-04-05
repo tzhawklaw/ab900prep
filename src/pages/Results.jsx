@@ -186,18 +186,51 @@ export default function Results({ results, onRestart, onHome }) {
           </div>
         </div>
 
-        {/* Ko-fi */}
-        <div className="rounded-2xl p-5 mb-5 text-center"
-          style={{ background: "var(--navy-mid)", border: "1px solid #1e293b" }}>
-          <p className="text-sm mb-1" style={{ color: "var(--text)" }}>
-            Found this helpful? Support the project 🙏
-          </p>
-          <p className="text-xs mb-4" style={{ color: "var(--muted)" }}>
-            Your donation helps add more questions and languages
-          </p>
-          <KofiButton />
-        </div>
-
+{/* Ko-fi */}
+<div className="rounded-2xl p-6 mb-5 text-center"
+  style={{
+    background: "rgba(56,189,248,0.05)",
+    border: "1px solid rgba(56,189,248,0.2)"
+  }}>
+  <p className="text-2xl mb-2">☕</p>
+  <h3 className="font-bold text-white mb-1" style={{ fontSize: "1.05rem" }}>
+    {passed
+      ? "You passed — AB900Prep helped get you there."
+      : "Keep going — AB900Prep is here every step of the way."}
+  </h3>
+  <p className="text-sm mb-1" style={{ color: "var(--muted)" }}>
+    No ads. No paywall. Forever free.
+  </p>
+  <div className="my-4 text-left">
+    <div className="flex justify-between text-xs mb-1" style={{ color: "#64748b" }}>
+      <span>📊 Question bank progress</span>
+      <span style={{ color: "#38bdf8" }}>238 / 500</span>
+    </div>
+    <div className="h-2 rounded-full" style={{ background: "#0f172a" }}>
+      <div className="h-full rounded-full"
+        style={{ width: "47.6%", background: "linear-gradient(90deg, #0284c7, #38bdf8)" }}>
+      </div>
+    </div>
+    <p className="text-xs mt-1" style={{ color: "#475569" }}>
+      A coffee helps me write more questions.
+    </p>
+  </div>
+  
+    <a href="https://ko-fi.com/tzhawklaw"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-block font-semibold px-6 py-3 rounded-xl transition-opacity hover:opacity-90"
+    style={{
+      background: "linear-gradient(135deg, #f59e0b, #fbbf24)",
+      color: "#1c1917",
+      fontSize: "0.95rem"
+    }}>
+    ☕ Support AB900Prep
+  </a>
+  <p className="text-xs mt-2" style={{ color: "#334155" }}>
+    Takes 30 seconds · No account needed
+  </p>
+</div>
         {/* Actions */}
         <div className="flex gap-3">
           <button onClick={onHome}
