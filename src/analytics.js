@@ -80,7 +80,7 @@ export function trackQuizCompleted(score, totalQuestions, timeTakenSeconds) {
  */
 export function trackDonateClick() {
   trackEvent('donate_click', {
-    currency: 'USD',
+    currency: 'EUR',
     value: 3.0,
   });
 }
