@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import QUESTIONS from "../questions.js";
+import DonateNudge from "../components/DonateNudge.jsx";
 import { trackQuizCompleted } from '../analytics';
 
 const TOTAL_TIME = 240 * 60;
@@ -23,6 +24,7 @@ export default function Exam({ onComplete, onHome }) {
   const [countdown, setCountdown] = useState(null);
   const [showPauseWarning, setShowPauseWarning] = useState(false);
   const [showNav, setShowNav] = useState(false);
+  const [dismissedNudge, setDismissedNudge] = useState(false);
 
   const q = QUESTIONS[current];
   const domainColor = DOMAIN_COLORS[q.domain] || "#38bdf8";
@@ -56,6 +58,10 @@ export default function Exam({ onComplete, onHome }) {
     const t = setTimeout(() => setCountdown(c => c - 1), 1000);
     return () => clearTimeout(t);
   }, [countdown]);
+
+  useEffect(() => {
+    setDismissedNudge(false);
+  }, [current]);
 
 const handleFinish = useCallback(() => {
   const score = Object.values(answers).filter((a, i) =>
@@ -106,6 +112,7 @@ const handleFinish = useCallback(() => {
   };
 
   const answered = Object.keys(answers).length;
+  const showDonateNudge = confirmed && !dismissedNudge && answered > 0 && answered % 10 === 0;
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--navy)" }}>
@@ -353,6 +360,8 @@ const handleFinish = useCallback(() => {
               </a>
             </div>
           )}
+
+          {showDonateNudge && <DonateNudge answered={answered} onDismiss={() => setDismissedNudge(true)} />}
 
           {/* Action buttons */}
           <div className="flex gap-3">
