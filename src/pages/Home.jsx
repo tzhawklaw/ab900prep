@@ -42,6 +42,118 @@ const FAQS = [
   },
 ];
 
+const CHANGELOG = [
+  {
+    date: "2 June 2026",
+    version: "v1.3",
+    badge: "Questions",
+    badgeColor: "#38bdf8",
+    items: [
+      "Expanded from 238 to 260 questions",
+      "Added 20 new Data Protection & Governance questions to match exam weight (35–40%)",
+      "Added questions on: Audit Standard vs Premium, eDiscovery tiers, auto-labeling, DLP simulation mode, Information Barriers, records management, endpoint DLP, adaptive protection, DSPM for AI, Copilot interaction data in Purview, and more",
+      "Added 2 new Copilot questions on SharePoint pay-as-you-go and admin feature toggles",
+      "Verified all topics against the official Microsoft AB-900 study guide (updated April 2026)",
+    ],
+  },
+  {
+    date: "6 April 2026",
+    version: "v1.2",
+    badge: "UX",
+    badgeColor: "#a78bfa",
+    items: [
+      "Added in-exam donation nudge after every 30 questions",
+      "Improved donate button copy and styling",
+      "Added Ko-fi support link throughout the exam flow",
+    ],
+  },
+  {
+    date: "5 April 2026",
+    version: "v1.1",
+    badge: "Features",
+    badgeColor: "#34d399",
+    items: [
+      "Added Ko-fi donate button on home and results pages",
+      "Added GA4 analytics (privacy-respecting, no personal data)",
+      "Fixed currency display from USD to EUR",
+    ],
+  },
+  {
+    date: "18 March 2026",
+    version: "v1.0",
+    badge: "Launch",
+    badgeColor: "#f59e0b",
+    items: [
+      "Added FAQ section with structured data for SEO",
+      "Added sitemap.xml and robots.txt",
+      "Added pause/resume exam feature with countdown",
+      "Redesigned home page with domain breakdown and stats",
+    ],
+  },
+  {
+    date: "15 March 2026",
+    version: "v0.1",
+    badge: "Launch",
+    badgeColor: "#f59e0b",
+    items: [
+      "Initial launch: 238 practice questions across 3 exam domains",
+      "240-minute timed exam with question navigator and flag system",
+      "Results page with scaled score (200–1000), domain breakdown, and per-question review",
+      "Every question links to the official Microsoft Learn source",
+    ],
+  },
+];
+
+function Changelog() {
+  return (
+    <section className="px-4 py-12 max-w-2xl mx-auto w-full">
+      <div className="text-center mb-8">
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--muted)" }}>
+          Built in the open
+        </p>
+        <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "'DM Serif Display', serif", color: "var(--text)" }}>
+          What's New
+        </h2>
+        <p className="text-sm mt-3" style={{ color: "var(--muted)" }}>
+          AB900Prep.com is maintained by one person. Here's everything that's been added or improved.
+        </p>
+      </div>
+
+      <div className="relative">
+        <div className="absolute left-[7px] top-2 bottom-2 w-px" style={{ background: "#1e293b" }} />
+        <div className="space-y-8">
+          {CHANGELOG.map((entry, i) => (
+            <div key={i} className="flex gap-5">
+              <div className="relative flex-shrink-0 mt-1">
+                <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-700"
+                  style={{ background: i === 0 ? entry.badgeColor : "var(--navy)" }} />
+              </div>
+              <div className="flex-1 pb-2">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ background: `${entry.badgeColor}20`, color: entry.badgeColor, border: `1px solid ${entry.badgeColor}40` }}>
+                    {entry.badge}
+                  </span>
+                  <span className="text-xs font-bold" style={{ color: "var(--text)" }}>{entry.version}</span>
+                  <span className="text-xs" style={{ color: "var(--muted)" }}>{entry.date}</span>
+                </div>
+                <ul className="space-y-1">
+                  {entry.items.map((item, j) => (
+                    <li key={j} className="text-sm flex gap-2" style={{ color: "var(--muted)" }}>
+                      <span style={{ color: "#334155" }}>–</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FAQ() {
   const [open, setOpen] = useState(null);
 
@@ -209,10 +321,12 @@ export default function Home({ onStart, onDisclaimer }) {
           </p>
         </div>
 
-        {/* FAQ — buiten de max-w-2xl fade-up div, maar nog binnen main */}
+        {/* FAQ + Changelog */}
         <div className="w-full max-w-2xl mx-auto mt-8">
           <div className="h-px mb-12" style={{ background: "#1e293b" }} />
           <FAQ />
+          <div className="h-px my-4" style={{ background: "#1e293b" }} />
+          <Changelog />
         </div>
       </main>
 
