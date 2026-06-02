@@ -204,7 +204,7 @@ export default function Results({ results, onRestart, onHome }) {
   <div className="my-4 text-left">
     <div className="flex justify-between text-xs mb-1" style={{ color: "#64748b" }}>
       <span>📊 Question bank progress</span>
-      <span style={{ color: "#38bdf8" }}>238 / 500</span>
+      <span style={{ color: "#38bdf8" }}>260 / 500</span>
     </div>
     <div className="h-2 rounded-full" style={{ background: "#0f172a" }}>
       <div className="h-full rounded-full"

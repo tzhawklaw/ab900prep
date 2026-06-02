@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: "What topics does the AB-900 exam cover?",
-    a: "The AB-900 exam covers three main domains: M365 Core Services & Security (30–35%), Data Protection & Governance (35–40%), and Copilot & Agent Administration (25–30%). AB900Prep.com has 238 practice questions spread across all three domains.",
+    a: "The AB-900 exam covers three main domains: M365 Core Services & Security (30–35%), Data Protection & Governance (35–40%), and Copilot & Agent Administration (25–30%). AB900Prep.com has 260 practice questions spread across all three domains.",
   },
   {
     q: "What is the difference between AB-900 and AI-900?",
@@ -34,11 +34,11 @@ const FAQS = [
   },
   {
     q: "Is AB900Prep.com free to use?",
-    a: "Yes, AB900Prep.com is completely free. No account is required, there is no paywall, and there is no time limit. The site currently offers 238 practice questions with explanations and Microsoft Learn source links, with a goal of reaching 500 questions.",
+    a: "Yes, AB900Prep.com is completely free. No account is required, there is no paywall, and there is no time limit. The site currently offers 260 practice questions with explanations and Microsoft Learn source links, with a goal of reaching 500 questions.",
   },
   {
     q: "How should I prepare for the AB-900 exam?",
-    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 238 free practice questions that reflect the real exam format, with explanations and direct links to Microsoft Learn source material.",
+    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 260 free practice questions that reflect the real exam format, with explanations and direct links to Microsoft Learn source material.",
   },
 ];
 
@@ -133,7 +133,7 @@ export default function Home({ onStart, onDisclaimer }) {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: "rgba(56,189,248,0.1)", border: "1px solid rgba(56,189,248,0.3)", color: "#38bdf8" }}>
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse inline-block"></span>
-            Free Practice Exam · 238 Questions Available
+            Free Practice Exam · 260 Questions Available
           </div>
 
           {/* Title */}
@@ -152,7 +152,7 @@ export default function Home({ onStart, onDisclaimer }) {
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-3 mb-10 max-w-sm mx-auto">
             {[
-              { icon: "📋", val: "238", label: "Questions" },
+              { icon: "📋", val: "260", label: "Questions" },
               { icon: "⏱️", val: "240 min", label: "Time limit" },
               { icon: "🎯", val: "700/1000", label: "Pass score" },
             ].map(s => (

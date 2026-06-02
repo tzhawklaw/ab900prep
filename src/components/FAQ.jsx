@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: "What topics does the AB-900 exam cover?",
-    a: "The AB-900 exam covers three main domains: M365 Core Services & Security (30–35%), Data Protection & Governance (35–40%), and Copilot & Agent Administration (25–30%). AB900Prep.com has 238 practice questions spread across all three domains.",
+    a: "The AB-900 exam covers three main domains: M365 Core Services & Security (30–35%), Data Protection & Governance (35–40%), and Copilot & Agent Administration (25–30%). AB900Prep.com has 260 practice questions spread across all three domains.",
   },
   {
     q: "What is the difference between AB-900 and AI-900?",
@@ -27,11 +27,11 @@ const FAQS = [
   },
   {
     q: "Is AB900Prep.com free to use?",
-    a: "Yes, AB900Prep.com is completely free. No account is required, there is no paywall, and there is no time limit. The site currently offers 238 practice questions with explanations and Microsoft Learn source links, with a goal of reaching 500 questions.",
+    a: "Yes, AB900Prep.com is completely free. No account is required, there is no paywall, and there is no time limit. The site currently offers 260 practice questions with explanations and Microsoft Learn source links, with a goal of reaching 500 questions.",
   },
   {
     q: "How should I prepare for the AB-900 exam?",
-    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 238 free practice questions that reflect the real exam format, with explanations and direct links to Microsoft Learn source material.",
+    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 260 free practice questions that reflect the real exam format, with explanations and direct links to Microsoft Learn source material.",
   },
 ];
 

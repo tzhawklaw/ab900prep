@@ -15,7 +15,7 @@ export default function KofiButton({ compact = false }) {
                                                   border: "1px solid rgba(245,158,11,0.3)"
                                     }}>
                                     ☕ Keep This Free
-                        </a>a>
+                        </a>
                       );
       }
 
@@ -32,10 +32,10 @@ export default function KofiButton({ compact = false }) {
                                           color: "#1c1917",
                             }}>
                         ☕ Keep This Free — Buy Me a Coffee
-                </a>a>
+                </a>
                 <p className="text-xs mt-2" style={{ color: "#475569" }}>
-                        238 questions. Zero cost. One solo dev. Your €3 keeps it that way.
-                </p>p>
-          </div>div>
+                        260 questions. Zero cost. One solo dev. Your €3 keeps it that way.
+                </p>
+          </div>
         );
-}</div>
+}

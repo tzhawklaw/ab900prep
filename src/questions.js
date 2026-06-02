@@ -1,4 +1,4 @@
-// AB-900 Practice Questions Database — 238 Questions
+// AB-900 Practice Questions Database — 260 Questions
 // Source: Microsoft Learn - https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900
 // Original practice questions based on publicly available Microsoft Learn documentation.
 // Not real exam questions. Not affiliated with Microsoft Corporation.
@@ -2150,6 +2150,208 @@ const QUESTIONS = [
     explanation: "The foundational governance action is data access review and remediation. If permissions are misconfigured (oversharing, legacy broad access), Copilot will surface that missharing at scale. Remediating permissions, labeling sensitive data, and understanding the AI risk profile via DSPM for AI ensures Copilot is both useful and secure from day one.",
     source: "https://learn.microsoft.com/en-us/sharepoint/sharepoint-copilot-best-practices",
     sourceLabel: "Microsoft Learn – SharePoint and Microsoft 365 Copilot best practices"
+  },
+
+  // ── DOMAIN 2 EXPANSION: Data Protection & Governance (Q239–Q258) ─────────
+  {
+    id: 239, domain: "Data Protection & Governance",
+    question: "What is the difference between Microsoft Purview Audit (Standard) and Audit (Premium)?",
+    options: ["They are identical — only the name differs", "Audit Standard retains logs for 90 days; Audit Premium retains for up to 1 year (or 10 years with add-on), and adds high-value events like MailItemsAccessed for forensic investigation", "Audit Premium is only available for SharePoint workloads", "Audit Standard requires an E5 license; Premium is included in E3"],
+    correct: 1,
+    explanation: "Audit Standard is included in most M365 plans and retains logs for 90 days. Audit Premium (E5 or add-on) extends retention to 1 year by default (10-year add-on available) and adds crucial forensic events such as MailItemsAccessed, which shows exactly which emails were read — critical for breach investigations.",
+    source: "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
+    sourceLabel: "Microsoft Learn – Microsoft Purview Audit solutions overview"
+  },
+  {
+    id: 240, domain: "Data Protection & Governance",
+    question: "What is the difference between Microsoft Purview eDiscovery (Standard) and eDiscovery (Premium)?",
+    options: ["Standard supports legal holds; Premium adds custodian management, advanced analytics, and review sets for large-scale litigation", "Premium only adds a faster search engine over Standard", "Standard is for admins only; Premium is for legal teams", "There is no functional difference — only the price differs"],
+    correct: 0,
+    explanation: "eDiscovery Standard provides content search and legal holds. eDiscovery Premium adds custodian management, communication workflows, review sets (with deduplication, email threading, and near-duplicate detection), and advanced analytics — designed for large, complex litigation matters.",
+    source: "https://learn.microsoft.com/en-us/purview/ediscovery-overview",
+    sourceLabel: "Microsoft Learn – Microsoft Purview eDiscovery overview"
+  },
+  {
+    id: 241, domain: "Data Protection & Governance",
+    question: "What is auto-labeling in Microsoft Purview Information Protection and how does it differ from manual labeling?",
+    options: ["Auto-labeling and manual labeling apply the same labels with the same user experience", "Auto-labeling automatically applies sensitivity labels to content based on sensitive information types or trainable classifiers — without requiring user action; manual labeling requires users to choose the label themselves", "Auto-labeling only works in Exchange Online", "Manual labeling is always more accurate than auto-labeling"],
+    correct: 1,
+    explanation: "Auto-labeling policies scan content in Exchange, SharePoint, and OneDrive and apply labels automatically when sensitive content is detected (e.g., credit card numbers, passport data). This removes the dependency on users to correctly label content, ensuring consistent classification at scale.",
+    source: "https://learn.microsoft.com/en-us/purview/apply-sensitivity-label-automatically",
+    sourceLabel: "Microsoft Learn – Apply a sensitivity label automatically"
+  },
+  {
+    id: 242, domain: "Data Protection & Governance",
+    question: "What is a DLP policy simulation mode and why is it useful?",
+    options: ["Simulation mode is a training mode for compliance officers", "Simulation mode (test mode) lets you run a DLP policy without enforcing it — showing which content would be matched and which users would be affected, so you can tune the policy before enforcement", "Simulation mode encrypts matched content instead of blocking it", "Simulation mode is only available in Microsoft Defender, not Purview"],
+    correct: 1,
+    explanation: "Before enforcing a DLP policy, running it in simulation/test mode shows policy matches in Activity Explorer without notifying users or blocking actions. This lets administrators validate that the policy catches the right content and does not generate false positives before switching to enforcement.",
+    source: "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+    sourceLabel: "Microsoft Learn – Learn about data loss prevention"
+  },
+  {
+    id: 243, domain: "Data Protection & Governance",
+    question: "What are Information Barriers in Microsoft Purview and when are they used?",
+    options: ["Information Barriers are firewall rules that block external email", "Policies that restrict communication and collaboration between specific groups of users — used in financial services to prevent conflicts of interest (e.g., preventing research analysts from communicating with investment bankers)", "A feature that encrypts messages between two departments", "A compliance report that shows unauthorized data flows"],
+    correct: 1,
+    explanation: "Information Barriers (IB) prevent specific groups from communicating or collaborating in Teams, SharePoint, and OneDrive. Common use cases: financial institutions separating investment banking from research, law firms separating conflicting client teams, or regulated industries with Chinese wall requirements.",
+    source: "https://learn.microsoft.com/en-us/purview/information-barriers-solution-overview",
+    sourceLabel: "Microsoft Learn – Information barriers in Microsoft Purview"
+  },
+  {
+    id: 244, domain: "Data Protection & Governance",
+    question: "What is records management in Microsoft Purview and how does it differ from regular retention?",
+    options: ["Records management and retention are identical features", "Records management (via retention labels marked as 'records') locks content so it cannot be edited or deleted during the retention period — providing immutable, legally defensible records. Regular retention preserves content but allows editing.", "Records management only applies to physical documents", "Records management permanently deletes content immediately after the retention period"],
+    correct: 1,
+    explanation: "When a retention label is configured as a 'record', the item becomes immutable — users cannot edit or delete it. A 'regulatory record' is even stricter: administrators cannot change or remove the label. This is essential for legal, compliance, and regulatory requirements where immutability must be provable.",
+    source: "https://learn.microsoft.com/en-us/purview/records-management",
+    sourceLabel: "Microsoft Learn – Learn about records management"
+  },
+  {
+    id: 245, domain: "Data Protection & Governance",
+    question: "What is the Activity Explorer in Microsoft Purview used for?",
+    options: ["Monitoring Microsoft Entra sign-in activity", "Providing a timeline view of labeled content activities — showing when labels were applied, changed, or removed; when DLP policies were triggered; and file activities like downloads, prints, and copies to USB", "Running eDiscovery searches across M365 workloads", "Configuring DLP policies based on detected activity patterns"],
+    correct: 1,
+    explanation: "Activity Explorer gives compliance administrators a unified view of data-related activities: sensitivity label changes, DLP policy matches, endpoint activities (print, USB copy, upload to cloud), and more. It is read-only — used for monitoring and investigation, not policy configuration.",
+    source: "https://learn.microsoft.com/en-us/purview/data-classification-activity-explorer",
+    sourceLabel: "Microsoft Learn – Get started with Activity Explorer"
+  },
+  {
+    id: 246, domain: "Data Protection & Governance",
+    question: "What is the Microsoft Purview Data Explorer (Content Explorer) used for?",
+    options: ["Managing SharePoint site collections and document libraries", "Showing administrators exactly which items are classified with specific sensitivity labels or contain specific sensitive information types — providing item-level visibility into classified content across M365", "Creating and editing sensitivity labels", "Searching audit logs for compliance investigations"],
+    correct: 1,
+    explanation: "Content Explorer (Data Explorer) lets compliance administrators drill down to see individual files and emails that have specific sensitivity labels or contain sensitive information types. It requires specific roles (Content Explorer List Viewer / Content Viewer) and provides item-level visibility into the data landscape.",
+    source: "https://learn.microsoft.com/en-us/purview/data-classification-content-explorer",
+    sourceLabel: "Microsoft Learn – Get started with Content Explorer"
+  },
+  {
+    id: 247, domain: "Data Protection & Governance",
+    question: "What is an Insider Risk Management policy template and give an example of when you would use the 'Data theft by departing users' template?",
+    options: ["Templates are only decorative — all IRM policies have the same rules", "Policy templates are pre-configured rule sets for common insider risk scenarios. 'Data theft by departing users' detects high-volume downloads, USB transfers, and cloud uploads by users with an upcoming resignation date from the HR connector", "The 'Data theft' template is only available in E3 licenses", "Templates require a SOC team to manually review every alert"],
+    correct: 1,
+    explanation: "Insider Risk Management templates are pre-built policy configurations for common scenarios. The 'Data theft by departing users' template combines HR signals (resignation or termination date) with risky activity indicators (bulk downloads, USB activity) to detect potential data exfiltration in the critical period before an employee leaves.",
+    source: "https://learn.microsoft.com/en-us/purview/insider-risk-management-policies",
+    sourceLabel: "Microsoft Learn – Create and manage insider risk management policies"
+  },
+  {
+    id: 248, domain: "Data Protection & Governance",
+    question: "How does Communication Compliance help with regulatory compliance in financial services?",
+    options: ["It encrypts all employee communications automatically", "It scans Teams, Exchange, and Viva Engage communications for policy violations — such as regulatory language violations, conflicts of interest, or offensive content — and routes flagged communications to reviewers", "It blocks employees from using personal email addresses on corporate devices", "It creates automatic retention policies for all communications"],
+    correct: 1,
+    explanation: "In regulated industries (financial services, healthcare, legal), Communication Compliance monitors employee communications for compliance policy violations — detecting regulatory language violations, potential market manipulation, or offensive content. Reviewers investigate flagged communications and take remediation actions.",
+    source: "https://learn.microsoft.com/en-us/purview/communication-compliance",
+    sourceLabel: "Microsoft Learn – Learn about Communication Compliance"
+  },
+  {
+    id: 249, domain: "Data Protection & Governance",
+    question: "What does Microsoft Purview Compliance Manager primarily help an organization do?",
+    options: ["Enforce DLP policies across the tenant", "Assess and improve compliance posture against regulatory standards (ISO 27001, GDPR, NIST) by providing a compliance score, pre-built assessments, recommended improvement actions, and evidence collection tools", "Monitor user activity for insider risk", "Classify data based on sensitivity"],
+    correct: 1,
+    explanation: "Compliance Manager provides a compliance score based on how well an organization meets controls for selected regulatory frameworks. It maps Microsoft-managed controls and customer-managed controls, provides step-by-step improvement actions, and lets teams track progress toward compliance goals.",
+    source: "https://learn.microsoft.com/en-us/purview/compliance-manager",
+    sourceLabel: "Microsoft Learn – Microsoft Purview Compliance Manager"
+  },
+  {
+    id: 250, domain: "Data Protection & Governance",
+    question: "What is the purpose of sensitivity labels on Microsoft Teams meetings and channels?",
+    options: ["They encrypt all files uploaded to the channel", "They control meeting and channel privacy settings — such as preventing external participants, enforcing lobby settings, and restricting recording — based on the sensitivity of the information being discussed", "They apply retention policies to meeting recordings automatically", "They block guests from viewing meeting chats"],
+    correct: 1,
+    explanation: "Sensitivity labels can be applied to Teams meetings (controlling recording, transcript, lobby, and external participant settings) and Teams channels (controlling membership, guest access, and sharing). This extends the information protection framework into real-time collaboration.",
+    source: "https://learn.microsoft.com/en-us/purview/sensitivity-labels-meetings",
+    sourceLabel: "Microsoft Learn – Use sensitivity labels to protect calendar items and Teams meetings"
+  },
+  {
+    id: 251, domain: "Data Protection & Governance",
+    question: "What is Microsoft Purview Data Loss Prevention (DLP) for endpoint devices and what does it protect against?",
+    options: ["DLP for endpoints only monitors email activity on managed devices", "Endpoint DLP extends DLP policies to Windows and macOS devices — detecting and optionally blocking sensitive data activities such as copying to USB drives, printing, uploading to non-approved cloud services, or sharing via Bluetooth", "Endpoint DLP replaces Microsoft Defender for Endpoint", "Endpoint DLP only works when the device is connected to the corporate network"],
+    correct: 1,
+    explanation: "Endpoint DLP uses the Microsoft Purview client (built into Windows 10/11 and available for macOS) to monitor and control what happens to sensitive data on the device itself — not just in cloud services. It can block copy to USB, print to non-approved printers, or upload to consumer cloud storage, even offline.",
+    source: "https://learn.microsoft.com/en-us/purview/endpoint-dlp-learn-about",
+    sourceLabel: "Microsoft Learn – Learn about Endpoint data loss prevention"
+  },
+  {
+    id: 252, domain: "Data Protection & Governance",
+    question: "What is event-based retention in Microsoft Purview and give a typical use case?",
+    options: ["Retention that triggers based on a fixed calendar date set by the administrator", "Retention that starts when a specific business event occurs — such as an employee leaving the company (triggering retention of their files for 7 years) or a contract expiring (triggering retention of contract documents)", "Retention that automatically deletes content after a user-defined event", "Retention triggered when a DLP policy match is detected"],
+    correct: 1,
+    explanation: "Event-based retention starts the retention clock when a real-world event occurs rather than when the content was created or last modified. Use cases: employee offboarding (retain HR files for N years from termination date), product discontinuation (retain product documentation for N years from end-of-life date), or contract expiration.",
+    source: "https://learn.microsoft.com/en-us/purview/event-driven-retention",
+    sourceLabel: "Microsoft Learn – Start retention when an event occurs"
+  },
+  {
+    id: 253, domain: "Data Protection & Governance",
+    question: "How does Microsoft Purview protect Copilot interaction data (prompts and responses)?",
+    options: ["Copilot interaction data is stored outside of M365 and is not subject to Purview policies", "Copilot prompts and responses are stored as interaction history in Exchange Online mailboxes and are subject to the same retention, eDiscovery, audit, and DLP policies as other M365 content", "Copilot interactions are automatically deleted after 30 days and cannot be retained", "Copilot interaction data can only be accessed by Microsoft support"],
+    correct: 1,
+    explanation: "Microsoft 365 Copilot interaction history is stored in the user's Exchange Online mailbox (hidden folder). This means it falls under the organization's existing Purview policies: retention labels can preserve or delete it, eDiscovery can search it, audit logs record it, and DLP policies can scan responses for sensitive content.",
+    source: "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview",
+    sourceLabel: "Microsoft Learn – Microsoft Purview data security for Microsoft Copilot"
+  },
+  {
+    id: 254, domain: "Data Protection & Governance",
+    question: "What is the role of sensitivity labels in protecting content generated by Microsoft 365 Copilot?",
+    options: ["Sensitivity labels cannot be applied to Copilot-generated content", "Copilot inherits and respects the sensitivity labels of the source documents it references — ensuring that generated content (drafts, summaries) carries appropriate protection based on the most sensitive source", "Copilot automatically assigns the highest possible label to all generated content", "Sensitivity labels for Copilot output are configured separately from standard labels"],
+    correct: 1,
+    explanation: "When Copilot generates content based on labeled source documents, it can inherit and suggest the highest sensitivity label from those sources. For example, if Copilot summarizes a document labeled 'Confidential', the resulting summary should also be labeled 'Confidential'. This is configurable via label policy settings.",
+    source: "https://learn.microsoft.com/en-us/purview/sensitivity-labels-office-apps",
+    sourceLabel: "Microsoft Learn – Sensitivity labels in Office apps"
+  },
+  {
+    id: 255, domain: "Data Protection & Governance",
+    question: "What is the Microsoft Purview Insider Risk Management 'sequence detection' capability?",
+    options: ["Detecting a single high-risk activity by a user", "Identifying a pattern of multiple lower-risk activities that together indicate a higher-risk scenario — for example, a user downloading files, then emailing them externally, then deleting browser history", "Automatically blocking a user after a single policy violation", "Generating daily risk reports for all users in the tenant"],
+    correct: 1,
+    explanation: "Sequence detection recognizes that individual activities may seem innocuous in isolation but indicate risk when combined. A user browsing job sites, then bulk downloading files, then copying to USB creates a risk sequence. Detecting sequences reduces false positives while catching sophisticated insider threats.",
+    source: "https://learn.microsoft.com/en-us/purview/insider-risk-management-policies",
+    sourceLabel: "Microsoft Learn – Insider risk management policies"
+  },
+  {
+    id: 256, domain: "Data Protection & Governance",
+    question: "What is 'adaptive protection' in Microsoft Purview and how does it connect Insider Risk Management with DLP?",
+    options: ["Adaptive protection is a manual process where admins assign DLP policies to specific users", "Adaptive protection automatically applies stricter DLP controls to users identified as elevated risk by Insider Risk Management — for example, blocking USB copy for a user with a high insider risk score", "Adaptive protection replaces conditional access policies", "Adaptive protection is only available for Exchange Online workloads"],
+    correct: 1,
+    explanation: "Adaptive Protection creates a feedback loop between Insider Risk Management (which assesses user risk levels) and DLP (which enforces data controls). Users flagged as elevated or critical risk automatically receive more restrictive DLP policies — without manual administrator intervention — creating dynamic, risk-based data protection.",
+    source: "https://learn.microsoft.com/en-us/purview/insider-risk-management-adaptive-protection",
+    sourceLabel: "Microsoft Learn – Adaptive protection in Microsoft Purview"
+  },
+  {
+    id: 257, domain: "Data Protection & Governance",
+    question: "What are the key capabilities of Microsoft Purview DSPM for AI (Data Security Posture Management) specifically for Copilot readiness?",
+    options: ["DSPM for AI only generates reports — it cannot recommend or trigger remediation", "DSPM for AI discovers which sensitive data Copilot can access, identifies oversharing risks, surfaces recommendations (like applying labels or restricting site access), and provides an AI-specific risk dashboard to track remediation progress", "DSPM for AI only monitors Azure OpenAI workloads, not Microsoft 365 Copilot", "DSPM for AI is a replacement for Compliance Manager"],
+    correct: 1,
+    explanation: "DSPM for AI provides an AI-specific risk dashboard showing: which sensitive files (by label or sensitive info type) are reachable by Copilot, which sites have oversharing issues, user activities with AI tools, and prioritized recommendations. Administrators can directly trigger remediation actions like restricting site access from within the dashboard.",
+    source: "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview",
+    sourceLabel: "Microsoft Learn – Microsoft Purview data security and compliance for Microsoft Copilot"
+  },
+  {
+    id: 258, domain: "Data Protection & Governance",
+    question: "What is the principle of 'least privilege access' and how does it apply to SharePoint before a Copilot deployment?",
+    options: ["Least privilege means users should only have one license assigned", "Least privilege means users should only have the minimum permissions needed for their role. Before Copilot, organizations must audit SharePoint permissions to ensure files are not accessible to more people than necessary — because Copilot will surface any data a user can access", "Least privilege only applies to administrator accounts, not regular users", "Least privilege is enforced automatically by Microsoft Entra and requires no manual configuration"],
+    correct: 1,
+    explanation: "Principle of least privilege (PoLP) means granting users only the access they need for their job. In the context of Copilot readiness, this means auditing SharePoint: removing 'Everyone' sharing links, reviewing broad group memberships, and using site-level access controls. Copilot respects permissions — so proper scoping of permissions is the primary data security control.",
+    source: "https://learn.microsoft.com/en-us/sharepoint/sharepoint-copilot-best-practices",
+    sourceLabel: "Microsoft Learn – Prepare your SharePoint environment for Microsoft 365 Copilot"
+  },
+
+  // ── GAP TOPICS: SharePoint Copilot pay-as-you-go & feature toggles (Q259–Q260) ──
+  {
+    id: 259, domain: "Copilot & Agent Administration",
+    question: "What is the SharePoint pay-as-you-go model for Microsoft 365 Copilot and when is it appropriate?",
+    options: ["A SharePoint storage billing model unrelated to Copilot", "A consumption-based licensing model where Copilot capabilities in SharePoint (such as agents embedded in sites) are billed per interaction rather than requiring a per-user monthly Copilot license — suitable for broad, occasional use cases like an intranet assistant available to all employees", "A model where SharePoint admins pay per site where Copilot is enabled", "The same as the standard Copilot monthly subscription but branded for SharePoint"],
+    correct: 1,
+    explanation: "SharePoint Copilot pay-as-you-go allows organizations to deploy Copilot-powered experiences (like SharePoint agents) without assigning individual Copilot licenses to every user. Billing is per message/interaction. This is cost-effective when many users interact occasionally — for example, an HR intranet agent used by all employees a few times per month.",
+    source: "https://learn.microsoft.com/en-us/microsoft-365-copilot/pay-as-you-go/overview",
+    sourceLabel: "Microsoft Learn – Microsoft 365 Copilot pay-as-you-go overview"
+  },
+  {
+    id: 260, domain: "Copilot & Agent Administration",
+    question: "Where does an administrator go to enable or disable specific Microsoft 365 Copilot features for their organization, and give an example of a feature that can be toggled?",
+    options: ["Copilot features can only be enabled or disabled by Microsoft — administrators have no control", "In the Microsoft 365 admin center under Settings > Copilot, administrators can enable or disable features such as Copilot chat (web-grounded), web search in Copilot, Copilot in specific apps (Teams, Outlook), and whether users can access Copilot Studio to build agents", "Copilot feature toggles are configured in the Microsoft Entra admin center", "Feature toggles for Copilot are only available via PowerShell cmdlets"],
+    correct: 1,
+    explanation: "The Microsoft 365 admin center (Settings > Copilot) provides a central location to manage Copilot features. Administrators can: enable/disable Copilot chat with web access, control whether Copilot can reference web content, manage access to Microsoft Copilot Studio for agent building, and configure which apps have Copilot capabilities enabled. This allows phased rollouts and compliance-driven restrictions.",
+    source: "https://learn.microsoft.com/en-us/microsoft-365-copilot/microsoft-365-copilot-setup",
+    sourceLabel: "Microsoft Learn – Set up Microsoft 365 Copilot"
   }
 ];
 
