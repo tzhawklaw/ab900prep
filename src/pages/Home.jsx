@@ -1,5 +1,10 @@
 import { useState } from "react";
 import KofiButton from "../components/KofiButton.jsx";
+import PayPalButton from "../components/PayPalButton.jsx";
+
+// Manually update FUNDING_RAISED as donations come in (Ko-fi + PayPal combined).
+const FUNDING_GOAL = 240; // EUR/year — covers ~€20/month hosting
+const FUNDING_RAISED = 5;
 
 const DOMAIN_INFO = [
   { name: "M365 Core Services & Security", pct: "30–35%", count: 35, color: "#38bdf8" },
@@ -43,6 +48,18 @@ const FAQS = [
 ];
 
 const CHANGELOG = [
+  {
+    date: "31 July 2026",
+    version: "v1.4",
+    badge: "Funding",
+    badgeColor: "#f59e0b",
+    items: [
+      "Added PayPal as an alternative donation method alongside Ko-fi on the home, exam, and results pages",
+      "Added a funding goal progress bar showing hosting-cost fundraising progress",
+      "Added cost context so visitors know what donations actually cover",
+      "Fixed Ko-fi donation click tracking on the results page (was untracked)",
+    ],
+  },
   {
     date: "2 June 2026",
     version: "v1.3",
@@ -224,6 +241,8 @@ function FAQ() {
 }
 
 export default function Home({ onStart, onDisclaimer }) {
+  const fundingPct = Math.min(100, Math.round((FUNDING_RAISED / FUNDING_GOAL) * 100));
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--navy)" }}>
       {/* Header */}
@@ -307,9 +326,37 @@ export default function Home({ onStart, onDisclaimer }) {
             Start Practice Exam →
           </button>
 
-          {/* Ko-fi */}
-          <div className="max-w-sm mx-auto mb-6">
-            <KofiButton />
+          {/* Funding goal + donate */}
+          <div className="max-w-md mx-auto mb-6 rounded-2xl p-5"
+            style={{ background: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.2)" }}>
+            <p className="text-sm font-semibold text-center mb-1" style={{ color: "var(--text)" }}>
+              This site costs €20/month to host — at least €240/year needed.
+            </p>
+            <p className="text-xs text-center mb-4" style={{ color: "var(--muted)" }}>
+              You'd be helping thousands study for free.
+            </p>
+
+            <div className="text-left mb-4">
+              <div className="flex justify-between text-xs mb-1" style={{ color: "#64748b" }}>
+                <span>🎯 Funding goal</span>
+                <span style={{ color: "#f59e0b" }}>€{FUNDING_RAISED} / €{FUNDING_GOAL}</span>
+              </div>
+              <div className="h-2 rounded-full" style={{ background: "#0f172a" }}>
+                <div className="h-full rounded-full"
+                  style={{ width: `${fundingPct}%`, background: "linear-gradient(90deg, #f59e0b, #fbbf24)" }}></div>
+              </div>
+              <p className="text-xs mt-1" style={{ color: "#475569" }}>{fundingPct}% funded</p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+              <div className="w-full sm:w-auto">
+                <KofiButton compact />
+              </div>
+              <span className="text-xs hidden sm:inline" style={{ color: "#475569" }}>or</span>
+              <div className="w-full sm:w-auto flex justify-center">
+                <PayPalButton id="paypal-donate-button-home" />
+              </div>
+            </div>
           </div>
 
           {/* Disclaimer link */}

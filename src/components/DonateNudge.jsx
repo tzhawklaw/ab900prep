@@ -1,4 +1,5 @@
 import { trackDonateClick } from '../analytics';
+import PayPalButton from './PayPalButton.jsx';
 
 export default function DonateNudge({ answered, onDismiss }) {
   return (
@@ -19,6 +20,12 @@ export default function DonateNudge({ answered, onDismiss }) {
             style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1c1917" }}>
             {"☕"} Buy a Coffee (€3)
           </a>
+          <div className="flex items-center gap-2 my-2 max-w-[200px]">
+            <div className="flex-1 h-px" style={{ background: "#334155" }}></div>
+            <span className="text-xs" style={{ color: "#475569" }}>or</span>
+            <div className="flex-1 h-px" style={{ background: "#334155" }}></div>
+          </div>
+          <PayPalButton id="paypal-donate-button-nudge" />
         </div>
         <button onClick={onDismiss} className="text-xs px-2 py-1 rounded flex-shrink-0"
           style={{ color: "#475569" }}>✕</button>

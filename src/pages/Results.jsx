@@ -1,5 +1,7 @@
 import { useState } from "react";
 import KofiButton from "../components/KofiButton.jsx";
+import PayPalButton from "../components/PayPalButton.jsx";
+import { trackDonateClick } from "../analytics.js";
 
 const DOMAIN_COLORS = {
   "M365 Core Services & Security": "#38bdf8",
@@ -219,6 +221,7 @@ export default function Results({ results, onRestart, onHome }) {
     <a href="https://ko-fi.com/tzhawklaw"
     target="_blank"
     rel="noopener noreferrer"
+    onClick={trackDonateClick}
     className="inline-block font-semibold px-6 py-3 rounded-xl transition-opacity hover:opacity-90"
     style={{
       background: "linear-gradient(135deg, #f59e0b, #fbbf24)",
@@ -227,6 +230,12 @@ export default function Results({ results, onRestart, onHome }) {
     }}>
     ☕ Support AB900Prep
   </a>
+  <div className="flex items-center gap-3 my-3 max-w-xs mx-auto">
+    <div className="flex-1 h-px" style={{ background: "#1e293b" }}></div>
+    <span className="text-xs" style={{ color: "#475569" }}>or</span>
+    <div className="flex-1 h-px" style={{ background: "#1e293b" }}></div>
+  </div>
+  <PayPalButton id="paypal-donate-button-results" />
   <p className="text-xs mt-2" style={{ color: "#334155" }}>
     Takes 30 seconds · No account needed
   </p>
