@@ -1,10 +1,7 @@
 import { useState } from "react";
 import KofiButton from "../components/KofiButton.jsx";
 import PayPalButton from "../components/PayPalButton.jsx";
-
-// Manually update FUNDING_RAISED as donations come in (Ko-fi + PayPal combined).
-const FUNDING_GOAL = 240; // EUR/year — covers ~€20/month hosting
-const FUNDING_RAISED = 5;
+import { FREE_EXPLANATION_LIMIT } from "../paywall.js";
 
 const DOMAIN_INFO = [
   { name: "M365 Core Services & Security", pct: "30–35%", count: 35, color: "#38bdf8" },
@@ -39,15 +36,27 @@ const FAQS = [
   },
   {
     q: "Is AB900Prep.com free to use?",
-    a: "Yes, AB900Prep.com is completely free. No account is required, there is no paywall, and there is no time limit. The site currently offers 260 practice questions with explanations and Microsoft Learn source links, with a goal of reaching 500 questions.",
+    a: `Practicing is free — no account required, no time limit, and you can answer all 260 questions and see your scaled score at no cost. Your first ${FREE_EXPLANATION_LIMIT} explanations (and source links) are free as you go; after that, and in the results review, explanations require a one-time payment of €2.99, processed securely by Stripe. Donations alone haven't covered hosting costs, so this is how the site stays online — see What's New below for the full story.`,
   },
   {
     q: "How should I prepare for the AB-900 exam?",
-    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 260 free practice questions that reflect the real exam format, with explanations and direct links to Microsoft Learn source material.",
+    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 260 free practice questions that reflect the real exam format, with detailed explanations and direct links to Microsoft Learn source material available via a one-time unlock.",
   },
 ];
 
 const CHANGELOG = [
+  {
+    date: "22 August 2026",
+    version: "v1.5",
+    badge: "Pricing",
+    badgeColor: "#ef4444",
+    items: [
+      "An honest update: months of Ko-fi and PayPal donation prompts haven't come close to covering hosting costs",
+      "Practicing all 260 questions and seeing your scaled score stays free — no account, no time limit",
+      "Your first 20 in-exam explanations are free; after that (and in the results review), explanations require a one-time payment of €2.99, processed securely by Stripe",
+      "If this doesn't cover the hosting bill, I may have to take AB900Prep.com offline — thank you to everyone who has already supported it",
+    ],
+  },
   {
     date: "31 July 2026",
     version: "v1.4",
@@ -241,8 +250,6 @@ function FAQ() {
 }
 
 export default function Home({ onStart, onDisclaimer }) {
-  const fundingPct = Math.min(100, Math.round((FUNDING_RAISED / FUNDING_GOAL) * 100));
-
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--navy)" }}>
       {/* Header */}
@@ -276,8 +283,7 @@ export default function Home({ onStart, onDisclaimer }) {
             Microsoft 365 Copilot & Agent Administration Fundamentals
           </p>
           <p className="text-sm mb-10" style={{ color: "#475569" }}>
-            Free practice questions with explanations and Microsoft Learn source links.
-            No account required.
+            Free practice questions with scaled scoring. No account required.
           </p>
 
           {/* Stats row */}
@@ -333,20 +339,8 @@ export default function Home({ onStart, onDisclaimer }) {
               This site costs €20/month to host — at least €240/year needed.
             </p>
             <p className="text-xs text-center mb-4" style={{ color: "var(--muted)" }}>
-              You'd be helping thousands study for free.
+              Donations are optional and help cover that — on top of the one-time unlock fee.
             </p>
-
-            <div className="text-left mb-4">
-              <div className="flex justify-between text-xs mb-1" style={{ color: "#64748b" }}>
-                <span>🎯 Funding goal</span>
-                <span style={{ color: "#f59e0b" }}>€{FUNDING_RAISED} / €{FUNDING_GOAL}</span>
-              </div>
-              <div className="h-2 rounded-full" style={{ background: "#0f172a" }}>
-                <div className="h-full rounded-full"
-                  style={{ width: `${fundingPct}%`, background: "linear-gradient(90deg, #f59e0b, #fbbf24)" }}></div>
-              </div>
-              <p className="text-xs mt-1" style={{ color: "#475569" }}>{fundingPct}% funded</p>
-            </div>
 
             <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
               <div className="w-full sm:w-auto">

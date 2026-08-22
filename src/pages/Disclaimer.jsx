@@ -1,3 +1,5 @@
+import { FREE_EXPLANATION_LIMIT } from "../paywall.js";
+
 export default function Disclaimer({ onBack }) {
   return (
     <div className="min-h-screen px-4 py-8" style={{ background: "var(--navy)" }}>
@@ -34,11 +36,15 @@ export default function Disclaimer({ onBack }) {
             },
             {
               title: "Privacy",
-              content: "AB900Prep.com does not collect personal data. All exam progress and scores are stored locally in your browser and are never transmitted to our servers. We do not use tracking cookies beyond what is strictly necessary for the website to function."
+              content: "AB900Prep.com does not collect personal data. All exam progress and scores are stored locally in your browser and are never transmitted to our servers. We do not use tracking cookies beyond what is strictly necessary for the website to function. The one exception is if you unlock explanations (see Payments below) — that transaction is processed directly by Stripe, which collects the payment details required to complete it. We never see or store your card information."
             },
             {
               title: "Donations",
-              content: "Donations made via Ko-fi are voluntary contributions to support the continued development and maintenance of this free resource. Donations do not guarantee any additional services, features, or exam success."
+              content: "Donations made via Ko-fi or PayPal are voluntary contributions to support the continued development and maintenance of this resource. Donations do not guarantee any additional services, features, or exam success."
+            },
+            {
+              title: "Payments",
+              content: `Practicing all 260 questions and seeing your scaled score is free. Your first ${FREE_EXPLANATION_LIMIT} explanations are free as you answer questions; after that, and in the results review, detailed explanations and Microsoft Learn source links require a one-time payment of €2.99, processed securely by Stripe — AB900Prep.com never sees or stores your card details. This is a one-time fee, not a subscription, and unlocks explanations for as long as you use the same browser on the same device (access is not tied to an account, since none exists). If your payment didn't go through correctly or you're not satisfied, contact us and we'll sort out a refund.`
             }
           ].map(item => (
             <div key={item.title} className="rounded-xl p-5"

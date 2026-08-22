@@ -2,6 +2,7 @@ import { useState } from "react";
 import KofiButton from "../components/KofiButton.jsx";
 import PayPalButton from "../components/PayPalButton.jsx";
 import { trackDonateClick } from "../analytics.js";
+import { isUnlocked, savePendingState, startCheckout } from "../paywall.js";
 
 const DOMAIN_COLORS = {
   "M365 Core Services & Security": "#38bdf8",
@@ -9,9 +10,25 @@ const DOMAIN_COLORS = {
   "Copilot & Agent Administration": "#34d399",
 };
 
-export default function Results({ results, onRestart, onHome }) {
-  const [reviewIdx, setReviewIdx] = useState(null);
-  const { answers, questions } = results;
+export default function Results({ results, initialReviewIdx = null, onRestart, onHome }) {
+  const [reviewIdx, setReviewIdx] = useState(initialReviewIdx);
+  const unlocked = isUnlocked();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState(null);
+  const { answers, questions, timeUsed } = results;
+
+  const handleUnlock = async () => {
+    setCheckoutError(null);
+    setCheckoutLoading(true);
+    try {
+      savePendingState({ context: "results", answers, timeUsed, reviewIdx });
+      await startCheckout();
+    } catch (err) {
+      console.error(err);
+      setCheckoutLoading(false);
+      setCheckoutError("Something went wrong starting checkout. Please try again.");
+    }
+  };
 
   const score = questions.filter(q => answers[q.id] === q.correct).length;
   const pct = Math.round((score / questions.length) * 100);
@@ -81,16 +98,34 @@ export default function Results({ results, onRestart, onHome }) {
             })}
           </div>
 
-          <div className="rounded-xl p-4 mb-4"
-            style={{ background: "rgba(56,189,248,0.06)", border: "1px solid rgba(56,189,248,0.2)" }}>
-            <p className="text-xs font-bold mb-1.5" style={{ color: "#38bdf8" }}>📚 Explanation</p>
-            <p className="text-sm leading-relaxed mb-3" style={{ color: "#bae6fd" }}>{rq.explanation}</p>
-            <a href={rq.source} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs rounded-lg px-3 py-1.5 hover:opacity-80"
-              style={{ background: "rgba(56,189,248,0.1)", color: "#38bdf8", border: "1px solid rgba(56,189,248,0.2)" }}>
-              🔗 {rq.sourceLabel}
-            </a>
-          </div>
+          {unlocked ? (
+            <div className="rounded-xl p-4 mb-4"
+              style={{ background: "rgba(56,189,248,0.06)", border: "1px solid rgba(56,189,248,0.2)" }}>
+              <p className="text-xs font-bold mb-1.5" style={{ color: "#38bdf8" }}>📚 Explanation</p>
+              <p className="text-sm leading-relaxed mb-3" style={{ color: "#bae6fd" }}>{rq.explanation}</p>
+              <a href={rq.source} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs rounded-lg px-3 py-1.5 hover:opacity-80"
+                style={{ background: "rgba(56,189,248,0.1)", color: "#38bdf8", border: "1px solid rgba(56,189,248,0.2)" }}>
+                🔗 {rq.sourceLabel}
+              </a>
+            </div>
+          ) : (
+            <div className="rounded-xl p-5 mb-4 text-center"
+              style={{ background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.25)" }}>
+              <p className="text-sm font-semibold mb-1" style={{ color: "#fbbf24" }}>🔒 Explanation locked</p>
+              <p className="text-xs leading-relaxed mb-4" style={{ color: "var(--muted)" }}>
+                Unlock detailed explanations and Microsoft Learn source links for all 260 questions — one-time payment, yours forever.
+              </p>
+              <button onClick={handleUnlock} disabled={checkoutLoading}
+                className="inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-xl transition-opacity hover:opacity-90 disabled:opacity-60"
+                style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1c1917" }}>
+                {checkoutLoading ? "Redirecting to checkout…" : "🔓 Unlock explanations — €2.99"}
+              </button>
+              {checkoutError && (
+                <p className="text-xs mt-2" style={{ color: "#fca5a5" }}>{checkoutError}</p>
+              )}
+            </div>
+          )}
 
           <div className="flex gap-3">
             {reviewIdx > 0 && (
@@ -200,24 +235,10 @@ export default function Results({ results, onRestart, onHome }) {
       ? "You passed — AB900Prep helped get you there."
       : "Keep going — AB900Prep is here every step of the way."}
   </h3>
-  <p className="text-sm mb-1" style={{ color: "var(--muted)" }}>
-    No ads. No paywall. Forever free.
+  <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
+    No ads. Practicing stays free — a small one-time fee unlocks explanations to help cover hosting costs.
   </p>
-  <div className="my-4 text-left">
-    <div className="flex justify-between text-xs mb-1" style={{ color: "#64748b" }}>
-      <span>📊 Question bank progress</span>
-      <span style={{ color: "#38bdf8" }}>260 / 500</span>
-    </div>
-    <div className="h-2 rounded-full" style={{ background: "#0f172a" }}>
-      <div className="h-full rounded-full"
-        style={{ width: "47.6%", background: "linear-gradient(90deg, #0284c7, #38bdf8)" }}>
-      </div>
-    </div>
-    <p className="text-xs mt-1" style={{ color: "#475569" }}>
-      A coffee helps me write more questions.
-    </p>
-  </div>
-  
+
     <a href="https://ko-fi.com/tzhawklaw"
     target="_blank"
     rel="noopener noreferrer"

@@ -8,10 +8,10 @@ export default function DonateNudge({ answered, onDismiss }) {
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1">
           <p className="text-sm font-semibold mb-1" style={{ color: "#fbbf24" }}>
-            {"☕"} You've answered {answered} questions — this tool is 100% free
+            {"☕"} You've answered {answered} questions — practicing stays free
           </p>
           <p className="text-xs leading-relaxed" style={{ color: "#94a3b8" }}>
-            AB900Prep is built by one person with no ads or paywall.
+            AB900Prep is built by one person with no ads.
             If it's helping you prep, a €3 coffee makes a real difference.
           </p>
           <a href="https://ko-fi.com/tzhawklaw" target="_blank" rel="noopener noreferrer"

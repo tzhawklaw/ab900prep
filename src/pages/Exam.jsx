@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import QUESTIONS from "../questions.js";
 import DonateNudge from "../components/DonateNudge.jsx";
 import { trackQuizCompleted } from '../analytics';
+import { isUnlocked, savePendingState, startCheckout, FREE_EXPLANATION_LIMIT } from "../paywall.js";
 
 const TOTAL_TIME = 240 * 60;
 const MAX_PAUSES = 3;
@@ -12,13 +13,23 @@ const DOMAIN_COLORS = {
   "Copilot & Agent Administration": "#34d399",
 };
 
-export default function Exam({ onComplete, onHome }) {
-  const [current, setCurrent] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [selected, setSelected] = useState(null);
-  const [confirmed, setConfirmed] = useState(false);
-  const [flagged, setFlagged] = useState(new Set());
-  const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
+export default function Exam({ onComplete, onHome, resumeState }) {
+  const [current, setCurrent] = useState(resumeState?.current ?? 0);
+  const [answers, setAnswers] = useState(resumeState?.answers ?? {});
+  const [selected, setSelected] = useState(() => {
+    if (!resumeState) return null;
+    const rq = QUESTIONS[resumeState.current];
+    return resumeState.answers[rq.id] ?? null;
+  });
+  const [confirmed, setConfirmed] = useState(() => {
+    if (!resumeState) return false;
+    const rq = QUESTIONS[resumeState.current];
+    return resumeState.answers[rq.id] !== undefined;
+  });
+  const [flagged, setFlagged] = useState(new Set(resumeState?.flagged ?? []));
+  const [timeLeft, setTimeLeft] = useState(resumeState?.timeLeft ?? TOTAL_TIME);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
   const [pauseCount, setPauseCount] = useState(0);
   const [countdown, setCountdown] = useState(null);
@@ -112,7 +123,23 @@ const handleFinish = useCallback(() => {
   };
 
   const answered = Object.keys(answers).length;
-  const showDonateNudge = confirmed && !dismissedNudge && answered > 0 && answered % 10 === 0;
+  const unlocked = isUnlocked();
+  const explanationsFree = answered <= FREE_EXPLANATION_LIMIT;
+  // Once the paywall card is showing, skip the donate nudge too — two stacked money asks compete with each other.
+  const showDonateNudge = confirmed && !dismissedNudge && answered > 0 && answered % 10 === 0 && answered <= FREE_EXPLANATION_LIMIT;
+
+  const handleUnlock = async () => {
+    setCheckoutError(null);
+    setCheckoutLoading(true);
+    try {
+      savePendingState({ context: "exam", answers, flagged: [...flagged], current, timeLeft });
+      await startCheckout();
+    } catch (err) {
+      console.error(err);
+      setCheckoutLoading(false);
+      setCheckoutError("Something went wrong starting checkout. Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--navy)" }}>
@@ -346,7 +373,7 @@ const handleFinish = useCallback(() => {
           </div>
 
           {/* Explanation + source */}
-          {confirmed && (
+          {confirmed && (unlocked || explanationsFree ? (
             <div className="rounded-xl p-4 mb-5 fade-up"
               style={{ background: "rgba(56,189,248,0.06)", border: "1px solid rgba(56,189,248,0.2)" }}>
               <p className="text-xs font-bold mb-1.5" style={{ color: "#38bdf8" }}>📚 Explanation</p>
@@ -359,7 +386,23 @@ const handleFinish = useCallback(() => {
                 🔗 {q.sourceLabel}
               </a>
             </div>
-          )}
+          ) : (
+            <div className="rounded-xl p-5 mb-5 text-center fade-up"
+              style={{ background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.25)" }}>
+              <p className="text-sm font-semibold mb-1" style={{ color: "#fbbf24" }}>🔒 Explanation locked</p>
+              <p className="text-xs leading-relaxed mb-4" style={{ color: "var(--muted)" }}>
+                You've used your {FREE_EXPLANATION_LIMIT} free explanations. Unlock explanations for all 260 questions — one-time payment, yours forever.
+              </p>
+              <button onClick={handleUnlock} disabled={checkoutLoading}
+                className="inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-xl transition-opacity hover:opacity-90 disabled:opacity-60"
+                style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)", color: "#1c1917" }}>
+                {checkoutLoading ? "Redirecting to checkout…" : "🔓 Unlock explanations — €2.99"}
+              </button>
+              {checkoutError && (
+                <p className="text-xs mt-2" style={{ color: "#fca5a5" }}>{checkoutError}</p>
+              )}
+            </div>
+          ))}
 
           {showDonateNudge && <DonateNudge answered={answered} onDismiss={() => setDismissedNudge(true)} />}
 

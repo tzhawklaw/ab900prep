@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FREE_EXPLANATION_LIMIT } from "../paywall.js";
 
 const FAQS = [
   {
@@ -27,11 +28,11 @@ const FAQS = [
   },
   {
     q: "Is AB900Prep.com free to use?",
-    a: "Yes, AB900Prep.com is completely free. No account is required, there is no paywall, and there is no time limit. The site currently offers 260 practice questions with explanations and Microsoft Learn source links, with a goal of reaching 500 questions.",
+    a: `Practicing is free — no account required, no time limit, and you can answer all 260 questions and see your scaled score at no cost. Your first ${FREE_EXPLANATION_LIMIT} explanations (and source links) are free as you go; after that, and in the results review, explanations require a one-time payment of €2.99, processed securely by Stripe. Donations alone haven't covered hosting costs, so this is how the site stays online — see What's New below for the full story.`,
   },
   {
     q: "How should I prepare for the AB-900 exam?",
-    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 260 free practice questions that reflect the real exam format, with explanations and direct links to Microsoft Learn source material.",
+    a: "The most effective preparation combines Microsoft Learn's free AB-900 learning path with regular practice questions. AB900Prep.com offers 260 free practice questions that reflect the real exam format, with detailed explanations and direct links to Microsoft Learn source material available via a one-time unlock.",
   },
 ];
 

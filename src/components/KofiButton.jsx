@@ -34,7 +34,7 @@ export default function KofiButton({ compact = false }) {
                         ☕ Keep This Free — Buy Me a Coffee
                 </a>
                 <p className="text-xs mt-2" style={{ color: "#475569" }}>
-                        260 questions. Zero cost. One solo dev. Your €3 keeps it that way.
+                        260 questions. One solo dev. Your €3 keeps it running.
                 </p>
           </div>
         );
