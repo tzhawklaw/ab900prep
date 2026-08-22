@@ -28,7 +28,7 @@ const FAQS = [
   },
   {
     q: "Is AB900Prep.com free to use?",
-    a: `Practicing is free — no account required, no time limit, and you can answer all 260 questions and see your scaled score at no cost. Your first ${FREE_EXPLANATION_LIMIT} explanations (and source links) are free as you go; after that, and in the results review, explanations require a one-time payment of €2.99, processed securely by Stripe. Donations alone haven't covered hosting costs, so this is how the site stays online — see What's New below for the full story.`,
+    a: `Practicing is free — no account required, no time limit, and you can answer all 260 questions and see your scaled score at no cost. The first ${FREE_EXPLANATION_LIMIT} questions include free explanations and source links; from question ${FREE_EXPLANATION_LIMIT + 1} onward, and in the results review, explanations require a one-time payment of €2.99, processed securely by Stripe. Donations alone haven't covered hosting costs, so this is how the site stays online — see What's New below for the full story.`,
   },
   {
     q: "How should I prepare for the AB-900 exam?",

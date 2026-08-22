@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import QUESTIONS from "../questions.js";
-import DonateNudge from "../components/DonateNudge.jsx";
 import { trackQuizCompleted } from '../analytics';
 import { isUnlocked, savePendingState, startCheckout, FREE_EXPLANATION_LIMIT } from "../paywall.js";
 
@@ -35,7 +34,6 @@ export default function Exam({ onComplete, onHome, resumeState }) {
   const [countdown, setCountdown] = useState(null);
   const [showPauseWarning, setShowPauseWarning] = useState(false);
   const [showNav, setShowNav] = useState(false);
-  const [dismissedNudge, setDismissedNudge] = useState(false);
 
   const q = QUESTIONS[current];
   const domainColor = DOMAIN_COLORS[q.domain] || "#38bdf8";
@@ -69,10 +67,6 @@ export default function Exam({ onComplete, onHome, resumeState }) {
     const t = setTimeout(() => setCountdown(c => c - 1), 1000);
     return () => clearTimeout(t);
   }, [countdown]);
-
-  useEffect(() => {
-    setDismissedNudge(false);
-  }, [current]);
 
 const handleFinish = useCallback(() => {
   const score = Object.values(answers).filter((a, i) =>
@@ -124,9 +118,10 @@ const handleFinish = useCallback(() => {
 
   const answered = Object.keys(answers).length;
   const unlocked = isUnlocked();
-  const explanationsFree = answered <= FREE_EXPLANATION_LIMIT;
-  // Once the paywall card is showing, skip the donate nudge too — two stacked money asks compete with each other.
-  const showDonateNudge = confirmed && !dismissedNudge && answered > 0 && answered % 10 === 0 && answered <= FREE_EXPLANATION_LIMIT;
+  // Gated by question position, not how many you've answered — otherwise the navigator
+  // lets you jump around and spend the free allowance on cherry-picked questions anywhere
+  // in the bank instead of it actually being "the first 20 questions."
+  const explanationsFree = current < FREE_EXPLANATION_LIMIT;
 
   const handleUnlock = async () => {
     setCheckoutError(null);
@@ -391,7 +386,7 @@ const handleFinish = useCallback(() => {
               style={{ background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.25)" }}>
               <p className="text-sm font-semibold mb-1" style={{ color: "#fbbf24" }}>🔒 Explanation locked</p>
               <p className="text-xs leading-relaxed mb-4" style={{ color: "var(--muted)" }}>
-                You've used your {FREE_EXPLANATION_LIMIT} free explanations. Unlock explanations for all 260 questions — one-time payment, yours forever.
+                The first {FREE_EXPLANATION_LIMIT} questions include free explanations. Unlock explanations for all 260 questions — one-time payment, no subscription.
               </p>
               <button onClick={handleUnlock} disabled={checkoutLoading}
                 className="inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-xl transition-opacity hover:opacity-90 disabled:opacity-60"
@@ -403,8 +398,6 @@ const handleFinish = useCallback(() => {
               )}
             </div>
           ))}
-
-          {showDonateNudge && <DonateNudge answered={answered} onDismiss={() => setDismissedNudge(true)} />}
 
           {/* Action buttons */}
           <div className="flex gap-3">

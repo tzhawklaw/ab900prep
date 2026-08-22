@@ -44,7 +44,7 @@ export default function Disclaimer({ onBack }) {
             },
             {
               title: "Payments",
-              content: `Practicing all 260 questions and seeing your scaled score is free. Your first ${FREE_EXPLANATION_LIMIT} explanations are free as you answer questions; after that, and in the results review, detailed explanations and Microsoft Learn source links require a one-time payment of €2.99, processed securely by Stripe — AB900Prep.com never sees or stores your card details. This is a one-time fee, not a subscription, and unlocks explanations for as long as you use the same browser on the same device (access is not tied to an account, since none exists). If your payment didn't go through correctly or you're not satisfied, contact us and we'll sort out a refund.`
+              content: `Practicing all 260 questions and seeing your scaled score is free. The first ${FREE_EXPLANATION_LIMIT} questions include free explanations; from question ${FREE_EXPLANATION_LIMIT + 1} onward, and in the results review, detailed explanations and Microsoft Learn source links require a one-time payment of €2.99, processed securely by Stripe — AB900Prep.com never sees or stores your card details. This is a one-time fee, not a subscription, and unlocks explanations for as long as you use the same browser on the same device (access is not tied to an account, since none exists). If your payment didn't go through correctly or you're not satisfied, contact us and we'll sort out a refund.`
             }
           ].map(item => (
             <div key={item.title} className="rounded-xl p-5"

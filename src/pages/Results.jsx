@@ -114,7 +114,7 @@ export default function Results({ results, initialReviewIdx = null, onRestart, o
               style={{ background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.25)" }}>
               <p className="text-sm font-semibold mb-1" style={{ color: "#fbbf24" }}>🔒 Explanation locked</p>
               <p className="text-xs leading-relaxed mb-4" style={{ color: "var(--muted)" }}>
-                Unlock detailed explanations and Microsoft Learn source links for all 260 questions — one-time payment, yours forever.
+                Unlock detailed explanations and Microsoft Learn source links for all 260 questions — one-time payment, no subscription.
               </p>
               <button onClick={handleUnlock} disabled={checkoutLoading}
                 className="inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-xl transition-opacity hover:opacity-90 disabled:opacity-60"
